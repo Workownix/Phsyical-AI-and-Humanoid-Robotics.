@@ -63,7 +63,7 @@ const config = {
           label: "Book",
         },
         { to: "/blog", label: "Blog", position: "left" },
-   
+
       ],
     },
 
@@ -107,6 +107,12 @@ const config = {
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics. All Rights are Reserved.`,
+    },
+
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
 
     prism: {
