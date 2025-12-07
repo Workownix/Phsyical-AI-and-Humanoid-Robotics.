@@ -1,0 +1,144 @@
+---
+title: 'Weeks 11-12: Humanoid Development (Part 2)'
+description: 'Implementing manipulation and grasping with humanoid hands, and designing natural human-robot interaction systems.'
+keywords: ['grasping', 'manipulation', 'human-robot-interaction', 'hri', 'gripper-control', 'social-robotics']
+sidebar_position: 2
+sidebar_label: 'Weeks 11-12: Humanoid Development (Part 2)'
+learning_objectives: ['Implement grasping algorithms for multi-fingered humanoid hands', 'Design manipulation strategies for various object types', 'Create natural human-robot interaction systems', 'Ensure safety in human-robot interaction scenarios']
+prerequisites: ['docs/module-4/week-11-12/humanoid-development-part-1']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'advanced'
+chapter_number: 2
+---
+
+# Humanoid Robot Development - Part 2
+
+### Weekly Breakdown
+
+Weeks 11-12: Humanoid Robot Development
+- Humanoid robot kinematics and dynamics
+- Bipedal locomotion and balance control
+- Manipulation and grasping with humanoid hands
+- Natural human-robot interaction design
+
+## Manipulation and Grasping with Humanoid Hands
+
+Humanoid robots are designed to interact with human-centric environments, which often requires dexterous manipulation. This involves developing sophisticated grasping algorithms and control strategies for multi-fingered hands.
+
+### Code Examples: Simple Grasping Algorithm for a Multi-fingered Hand (Conceptual)
+
+```python
+# conceptual_grasping.py (Simplified grasping for a 3-finger gripper)
+import numpy as np
+
+class GripperController:
+    def __init__(self, robot_interface):
+        self.robot = robot_interface # Abstraction for sending gripper commands
+        self.gripper_state = "open"
+
+    def open_gripper(self):
+        print("Opening gripper...")
+        # self.robot.set_gripper_joint_angles([0.0, 0.0, 0.0]) # Example: all fingers open
+        self.gripper_state = "open"
+
+    def close_gripper(self):
+        print("Closing gripper...")
+        # self.robot.set_gripper_joint_angles([0.5, 0.5, 0.5]) # Example: all fingers closed (grasp)
+        self.gripper_state = "closed"
+
+    def attempt_grasp(self, object_properties):
+        print(f"Attempting to grasp object with properties: {object_properties}")
+        # In a real system, this would involve:
+        # 1. Perception: Detect object pose, shape, size
+        # 2. Grasp Planning: Select optimal grasp pose and finger configuration
+        # 3. Execution: Move arm, open gripper, approach, close gripper
+
+        if object_properties['size'] < 0.2 and object_properties['weight'] < 1.0:
+            self.close_gripper()
+            print("Grasp successful!")
+            return True
+        else:
+            self.open_gripper()
+            print("Grasp failed: object too large or heavy.")
+            return False
+
+# Example usage (requires a mock or actual robot interface)
+class MockRobotInterface:
+    def set_gripper_joint_angles(self, angles):
+        # print(f"Setting gripper joint angles: {angles}")
+        pass
+
+if __name__ == '__main__':
+    mock_robot = MockRobotInterface()
+    gripper = GripperController(mock_robot)
+
+    small_object = {'size': 0.1, 'weight': 0.5}
+    large_object = {'size': 0.3, 'weight': 2.0}
+
+    gripper.attempt_grasp(small_object)
+    gripper.open_gripper()
+    gripper.attempt_grasp(large_object)
+```
+
+## Natural Human-Robot Interaction Design
+
+Natural Human-Robot Interaction (HRI) is about designing robots that can communicate and interact with humans in an intuitive and socially acceptable manner. This includes verbal communication, gestures, facial expressions, and understanding human intent.
+
+### Code Examples: Basic HRI Feedback Loop (Visual Cues, Simple Voice Response) (Conceptual)
+
+```python
+# conceptual_hri_feedback.py
+import time
+
+class HRIController:
+    def __init__(self, robot_interface):
+        self.robot = robot_interface # Abstraction for robot expressions/speech
+
+    def acknowledge_command(self, command):
+        print(f"Robot: Acknowledging command: \"{command}\"")
+        # self.robot.display_facial_expression("happy") # e.g., via a screen
+        # self.robot.speak(f"Okay, I will {command}.") # text-to-speech
+
+    def report_status(self, status):
+        print(f"Robot: Status update: {status}")
+        # self.robot.speak(f"My current status is {status}.")
+
+    def ask_clarification(self, question):
+        print(f"Robot: I need clarification: {question}")
+        # self.robot.display_facial_expression("confused")
+        # self.robot.speak(f"Could you please clarify: {question}?")
+
+# Example usage
+class MockRobotInterface:
+    def display_facial_expression(self, expression):
+        pass
+    def speak(self, text):
+        pass
+
+if __name__ == '__main__':
+    mock_robot = MockRobotInterface()
+    hri = HRIController(mock_robot)
+
+    hri.acknowledge_command("clean the table")
+    time.sleep(2)
+    hri.report_status("cleaning in progress")
+    time.sleep(2)
+    hri.ask_clarification("Which items should I move?")
+```
+
+## Diagrams
+
+<!-- Placeholder for humanoid hand grasping pose diagram, illustrating finger configurations for different object shapes. -->
+
+<!-- Placeholder for HRI interaction flow diagram, showing the loop of human input -> robot processing -> robot output -> human perception. -->
+
+## Warning Boxes
+
+:::caution Safety in Human-Robot Interaction (HRI)
+-   **Collision Avoidance**: Implement robust collision detection and avoidance systems to prevent harm to humans.
+-   **Predictable Behavior**: Design robot movements and responses to be predictable and understandable to humans.
+-   **Emergency Stop**: Ensure clear and accessible emergency stop mechanisms are in place.
+-   **Transparency**: Robots should clearly communicate their intentions and capabilities to avoid false assumptions by humans.
+-   **Privacy**: Be mindful of privacy concerns when robots use cameras, microphones, and other sensors in human environments.
+:::

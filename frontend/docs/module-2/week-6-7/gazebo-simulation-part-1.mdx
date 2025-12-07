@@ -1,0 +1,144 @@
+---
+title: 'Weeks 6-7: Gazebo Simulation (Part 1)'
+description: 'Setting up Gazebo simulation environment, understanding URDF and SDF formats, and configuring physics and sensor simulation.'
+keywords: ['gazebo', 'simulation', 'urdf', 'sdf', 'physics', 'sensor-simulation']
+sidebar_position: 1
+sidebar_label: 'Weeks 6-7: Gazebo Simulation (Part 1)'
+learning_objectives: ['Set up Gazebo simulation environments', 'Understand URDF and SDF robot description formats', 'Configure physics simulation in Gazebo', 'Implement sensor simulation for robots']
+prerequisites: ['docs/module-1/week-3-5/ros2-fundamentals-part-3']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'intermediate'
+chapter_number: 1
+---
+
+# Robot Simulation with Gazebo - Part 1
+
+### Weekly Breakdown
+
+Weeks 6-7: Robot Simulation with Gazebo
+- Gazebo simulation environment setup
+- URDF and SDF robot description formats
+- Physics simulation and sensor simulation
+- Introduction to Unity for robot visualization
+
+## Gazebo Environment Setup
+
+Gazebo is a powerful 3D robotics simulator that provides accurate physics, a rich set of sensors, and a convenient developer interface. Setting up Gazebo involves installing the simulator and integrating it with ROS 2.
+
+## URDF and SDF Robot Description Formats
+
+-   **URDF (Unified Robot Description Format)**: Used primarily in ROS for describing robot kinematics (links and joints), visual appearance, collision properties, and inertial properties. It is an XML-based format.
+-   **SDF (Simulation Description Format)**: A more general XML format used by Gazebo to describe everything in a simulation environment, including robots, static objects, terrain, and even lighting. SDF can represent a scene graph and a world, which URDF cannot.
+
+### Code Examples: Complete URDF/SDF Model for a Simple Robot (Conceptual)
+
+```xml
+<!-- simple_robot.urdf -->
+<?xml version="1.0"?>
+<robot name="simple_robot">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.1" length="0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_wheel" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+    <origin xyz="0 -0.1 0" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.02"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.05" length="0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="0.000008" ixy="0" ixz="0" iyy="0.000008" iyz="0" izz="0.000015"/>
+    </inertial>
+  </link>
+  <!-- ... similarly for left_wheel and other links/joints -->
+</robot>
+```
+
+### Code Examples: Gazebo Launch File for Spawning the Robot
+
+```python
+# spawn_robot.launch.py
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration, PythonExpression
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
+def generate_launch_description():
+    # Get the path to your robot description package
+    robot_description_pkg = get_package_share_directory('my_robot_description') # Replace with your package name
+    urdf_path = os.path.join(robot_description_pkg, 'urdf', 'simple_robot.urdf')
+
+    # Declare the robot_state_publisher node
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
+        parameters=[{'robot_description': open(urdf_path).read()}],
+    )
+
+    # Include the Gazebo launch file for spawning the entity
+    gazebo_launch_file = os.path.join(
+        get_package_share_directory('gazebo_ros'),
+        'launch',
+        'gazebo.launch.py'
+    )
+
+    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+                        arguments=['-file', urdf_path,
+                                   '-entity', 'simple_robot'],
+                        output='screen')
+
+    return LaunchDescription([
+        robot_state_publisher_node,
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(gazebo_launch_file)
+        ),
+        spawn_entity
+    ])
+```
+
+## Diagrams
+
+<!-- Placeholder for Gazebo GUI overview diagram, showing key components like the 3D world, model tree, and plugin panels. -->
+
+<!-- Placeholder for diagram of physics engine interaction within Gazebo, illustrating how forces, collisions, and joint dynamics are calculated. -->
+
+## Warning Boxes
+
+:::tip Gazebo Performance Considerations
+-   **Simplify Models**: Reduce polygon count for meshes and use primitive shapes where possible.
+-   **Reduce Contacts**: Minimize unnecessary collision geometries, especially for static objects.
+-   **Lower Physics Update Rate**: Adjust `max_step_size` and `update_rate` in Gazebo physics settings if simulation runs too slow.
+-   **Disable Unused Sensors**: Turn off sensors (e.g., cameras, LiDAR) that are not actively being used to save computational resources.
+:::

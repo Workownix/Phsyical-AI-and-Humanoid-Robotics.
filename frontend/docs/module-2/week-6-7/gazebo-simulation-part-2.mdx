@@ -1,0 +1,123 @@
+---
+title: 'Weeks 6-7: Gazebo Simulation (Part 2)'
+description: 'Advanced sensor simulation in Gazebo and introduction to Unity for high-fidelity robot visualization and human-robot interaction.'
+keywords: ['sensor-simulation', 'lidar', 'unity', 'visualization', 'ros-unity-bridge']
+sidebar_position: 2
+sidebar_label: 'Weeks 6-7: Gazebo Simulation (Part 2)'
+learning_objectives: ['Implement sensor simulation for LiDAR, cameras, and IMUs in Gazebo', 'Configure Unity for high-fidelity robot visualization', 'Integrate ROS 2 with Unity using communication bridges', 'Visualize sensor data in Unity environment']
+prerequisites: ['docs/module-2/week-6-7/gazebo-simulation-part-1']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'advanced'
+chapter_number: 2
+---
+
+# Robot Simulation with Gazebo - Part 2
+
+### Weekly Breakdown
+
+Weeks 6-7: Robot Simulation with Gazebo
+- Gazebo simulation environment setup
+- URDF and SDF robot description formats
+- Physics simulation and sensor simulation
+- Introduction to Unity for robot visualization
+
+## Sensor Simulation
+
+Accurate sensor simulation is crucial for developing robust robot perception and navigation systems. Gazebo provides a variety of sensor plugins that mimic real-world sensors like LiDAR, depth cameras, and Inertial Measurement Units (IMUs).
+
+### Code Examples: ROS 2 Plugin for Gazebo Sensor (LiDAR data publisher)
+
+```xml
+<!-- Example: Adding a LiDAR sensor to a URDF -->
+<link name="laser_link">
+  <inertial>
+    <mass value="0.01"/>
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+  </inertial>
+  <visual>
+    <geometry>
+      <cylinder radius="0.01" length="0.05"/>
+    </geometry>
+  </visual>
+  <collision>
+    <geometry>
+      <cylinder radius="0.01" length="0.05"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="laser_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="laser_link"/>
+  <origin xyz="0.1 0 0.05" rpy="0 0 0"/>
+</joint>
+
+<gazebo reference="laser_link">
+  <sensor name="laser_sensor" type="ray">
+    <pose>0 0 0 0 0 0</pose>
+    <visualize>true</visualize>
+    <update_rate>10.0</update_rate>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>720</samples>
+          <resolution>1</resolution>
+          <min_angle>-1.5708</min_angle>
+          <max_angle>1.5708</max_angle>
+        </horizontal>
+      </scan>
+      <range>
+        <min>0.1</min>
+        <max>10.0</max>
+        <resolution>0.01</resolution>
+      </range>
+    </ray>
+    <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_ray_sensor.so">
+      <ros>\n        <argument>~/out</argument>\n        <remap>~/out:=laser_scan</remap>\n        <namespace>/my_robot</namespace>\n      </ros>\n      <output_type>sensor_msgs/LaserScan</output_type>
+      <frame_name>laser_link</frame_name>
+    </plugin>
+  </sensor>
+</gazebo>
+```
+
+### Basic Unity Integration Example for Visualizing a ROS 2 Topic (Conceptual)
+
+Unity can be used for high-fidelity visualization and human-robot interaction. Integrating with ROS 2 typically involves a ROS-Unity bridge (e.g., `ROS-TCP-Connector`).
+
+```csharp
+// Example C# script in Unity to subscribe to a ROS 2 topic
+using RosMessageTypes.Std; // Assuming you generated C# messages from std_msgs
+using ROS2.Unity.Extensions.Runtime; // Assuming ROS-Unity integration library
+using UnityEngine;
+
+public class RosSubscriberExample : MonoBehaviour
+{
+    public Ros2Topic<StringMsg> topic;
+
+    void Start()
+    {
+        topic.Subscribe(OnRosMessage);
+    }
+
+    void OnRosMessage(StringMsg msg)
+    {
+        Debug.Log("Received ROS message: " + msg.data);
+        // Update UI or manipulate objects based on the message
+    }
+}
+```
+
+## Diagrams
+
+<!-- Placeholder for sensor data visualization in Rviz or a custom Unity interface, showing how raw sensor data is interpreted and displayed. -->
+
+## Warning Boxes
+
+:::tip Unity Performance Tips for Robotics
+-   **Optimize 3D Models**: Use low-polygon models for robots and environments, and optimize textures.
+-   **Batching**: Use static batching for stationary objects and dynamic batching for moving objects to reduce draw calls.
+-   **Culling**: Implement frustum culling and occlusion culling to render only visible objects.
+-   **Physics Iterations**: Adjust Unity's physics update rate to match the simulation requirements without over-processing.
+-   **Asynchronous ROS Communication**: Ensure ROS 2 message processing in Unity doesn't block the main thread to maintain smooth rendering.
+:::

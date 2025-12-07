@@ -1,0 +1,261 @@
+---
+title: 'Week 13: Conversational Robotics'
+description: 'Integrating GPT models and OpenAI Whisper for conversational AI in robots, implementing speech recognition and natural language understanding, and completing the capstone project.'
+keywords: ['conversational-ai', 'gpt', 'openai-whisper', 'speech-recognition', 'natural-language-understanding', 'capstone-project']
+sidebar_position: 1
+sidebar_label: 'Week 13: Conversational Robotics'
+learning_objectives: ['Integrate GPT models for conversational robotics', 'Implement speech recognition using OpenAI Whisper', 'Create cognitive planning systems using LLMs', 'Complete the capstone Autonomous Humanoid project']
+prerequisites: ['docs/module-4/week-11-12/humanoid-development-part-2']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'advanced'
+chapter_number: 1
+---
+
+# Conversational Robotics
+
+Integrating GPT models for conversational AI in robots, Speech recognition and natural language understanding (OpenAI Whisper), Multi-modal interaction.
+
+## Capstone Project: The Autonomous Humanoid
+
+This chapter details the capstone project, combining all learned concepts: a simulated robot receiving a voice command, planning a path, navigating obstacles, identifying an object using computer vision, and manipulating it.
+
+### Code Examples: OpenAI Whisper Integration for Voice Commands (Conceptual)
+
+```python
+# conceptual_whisper_integration.py
+import speech_recognition as sr
+import openai
+
+# Assume OpenAI API key is set up as an environment variable
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+
+class VoiceCommandProcessor:
+    def __init__(self):
+        self.recognizer = sr.Recognizer()
+
+    def listen_for_command(self):
+        with sr.Microphone() as source:
+            print("Listening for command...")
+            self.recognizer.adjust_for_ambient_noise(source)
+            audio = self.recognizer.listen(source)
+        try:
+            # Using Google Web Speech API for transcription (free, often good enough for demos)
+            # For more robust, offline, or commercial use, integrate OpenAI Whisper API
+            print("Transcribing audio...")
+            text = self.recognizer.recognize_google(audio)
+            print(f"User said: "{text}"")
+            return text
+        except sr.UnknownValueError:
+            print("Could not understand audio")
+            return ""
+        except sr.RequestError as e:
+            print(f"Could not request results from Google Speech Recognition service; {e}")
+            return ""
+
+    def process_command_with_llm(self, command_text):
+        if not command_text:
+            return "No command to process."
+        print(f"Processing command with LLM: "{command_text}"")
+        # Conceptual LLM integration for cognitive planning
+        # In a real system, this would call an LLM API (e.g., OpenAI, Claude)
+        # to translate natural language into a sequence of robot actions.
+        prompt = f"Translate the following natural language command into a sequence of ROS 2 actions for a humanoid robot: '{command_text}'. Focus on high-level actions like 'navigate to X', 'pick up Y', 'place Z'."
+        # response = openai.chat.completions.create(
+        #     model="gpt-4",  # or other appropriate LLM
+        #     messages=[
+        #         {"role": "system", "content": "You are a robot assistant that translates natural language into ROS 2 actions."},
+        #         {"role": "user", "content": prompt}
+        #     ]
+        # )
+        # llm_output = response.choices[0].message.content
+        llm_output = f"Conceptual ROS 2 actions for: "{command_text}"" # Mock LLM output
+        print(f"LLM output (ROS 2 actions): {llm_output}")
+        return llm_output
+
+if __name__ == '__main__':
+    processor = VoiceCommandProcessor()
+    command = processor.listen_for_command()
+    if command:
+        actions = processor.process_command_with_llm(command)
+        # Here, 'actions' would be fed into a ROS 2 action server for execution
+```
+
+### Code Examples: LLM Prompt Engineering for Cognitive Planning (Conceptual)
+
+```python
+# conceptual_llm_cognitive_planning.py
+# This script focuses on the prompt engineering aspect of using an LLM
+# for translating natural language into robot actions.
+
+def generate_robot_action_prompt(natural_language_command):
+    """
+    Generates a structured prompt for an LLM to translate a natural language command
+    into a sequence of high-level ROS 2 actions.
+    """
+    prompt = f"""
+You are an expert robotic task planner. Your goal is to translate natural language commands into a list of executable, high-level ROS 2 actions for an autonomous humanoid robot. The robot has capabilities for:
+- Navigation (e.g., 'navigate to <location>')
+- Object detection (e.g., 'detect <object_type>')
+- Manipulation (e.g., 'pick up <object>', 'place <object> on <surface>')
+- Speech (e.g., 'speak "<message>"')
+
+Constraints:
+- Respond ONLY with a YAML-formatted list of actions.
+- Each action should have an 'action_type' and 'parameters'.
+- Keep actions high-level and abstract; do not include low-level joint commands.
+- If a command is ambiguous, include a 'clarification_needed' action.
+
+Example:
+User command: "Clean the table"
+Robot actions:
+- action_type: detect_objects
+  parameters:
+    object_type: "mess"
+    area: "table"
+- action_type: pick_up
+  parameters:
+    object: "debris"
+- action_type: place
+  parameters:
+    object: "debris"
+    location: "bin"
+- action_type: speak
+  parameters:
+    message: "Table has been cleaned."
+
+Now, translate the following command: "{natural_language_command}"
+Robot actions:
+"""
+    return prompt
+
+# Example usage
+user_command_1 = "Go to the kitchen and grab the coffee mug."
+prompt_1 = generate_robot_action_prompt(user_command_1)
+print(f"--- Prompt for Command 1 ---
+{prompt_1}")
+# Simulate LLM response (in a real scenario, this would be an API call)
+llm_response_1 = """
+- action_type: navigate_to
+  parameters:
+    location: "kitchen"
+- action_type: detect_objects
+  parameters:
+    object_type: "coffee mug"
+- action_type: pick_up
+  parameters:
+    object: "coffee mug"
+- action_type: speak
+  parameters:
+    message: "I have retrieved the coffee mug."
+"""
+print(f"--- Simulated LLM Response 1 ---
+{llm_response_1}")
+
+
+user_command_2 = "Move that thing over there."
+prompt_2 = generate_robot_action_prompt(user_command_2)
+print(f"
+--- Prompt for Command 2 ---
+{prompt_2}")
+# Simulate LLM response for an ambiguous command
+llm_response_2 = """
+- action_type: clarification_needed
+  parameters:
+    question: "Which object are you referring to, and where should I move it?"
+"""
+print(f"--- Simulated LLM Response 2 ---
+{llm_response_2}")
+```
+
+### Code Examples: ROS 2 Action Server for Capstone Tasks (Conceptual)
+
+```python
+# conceptual_ros2_action_server.py
+import rclpy
+from rclpy.action import ActionServer
+from rclpy.node import Node
+
+# Assuming a custom action definition exists:
+# # my_robot_interfaces/action/DoTask.action
+# string task_name
+# ---
+# bool success
+# string message
+# ---
+# float32 progress_percentage
+
+from my_robot_interfaces.action import DoTask # type: ignore # conceptual import
+
+class DoTaskActionServer(Node):
+
+    def __init__(self):
+        super().__init__('do_task_action_server')
+        self._action_server = ActionServer(
+            self,
+            DoTask,
+            'do_robot_task',
+            self.execute_callback)
+        self.get_logger().info('DoTask Action Server ready.')
+
+    def execute_callback(self, goal_handle):
+        self.get_logger().info(f'Executing goal: {goal_handle.request.task_name}')
+
+        feedback_msg = DoTask.Feedback()
+        feedback_msg.progress_percentage = 0.0
+
+        # Simulate task execution based on task_name
+        task_name = goal_handle.request.task_name
+        self.get_logger().info(f"Starting task: {task_name}")
+
+        # Example: Simple progress simulation
+        for i in range(1, 6):
+            feedback_msg.progress_percentage = float(i) / 5.0 * 100.0
+            self.get_logger().info(f'Feedback: {feedback_msg.progress_percentage:.0f}% for {task_name}')
+            goal_handle.publish_feedback(feedback_msg)
+            rclpy.spin_until_future_complete(self, rclpy.create_future(), timeout_sec=1.0) # Simulate work
+
+        goal_handle.succeed()
+
+        result = DoTask.Result()
+        result.success = True
+        result.message = f"Task '{task_name}' completed successfully!"
+        self.get_logger().info(result.message)
+        return result
+
+def main(args=None):
+    rclpy.init(args=args)
+    action_server = DoTaskActionServer()
+    rclpy.spin(action_server)
+    action_server.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    # To run this, you would first need to define the DoTask action
+    # in a ROS 2 package (e.g., my_robot_interfaces/action/DoTask.action)
+    # and then build that package.
+    # Example action definition in my_robot_interfaces/action/DoTask.action:
+    # ---
+    # string task_name
+    # ---
+    # bool success
+    # string message
+    # ---
+    # float32 progress_percentage
+    main()
+```
+
+## Diagrams
+
+<!-- Placeholder for Conversational AI pipeline diagram, illustrating the flow from raw audio input -> speech recognition (Whisper) -> natural language understanding (LLM) -> action planning -> robot execution -> multi-modal feedback. -->
+
+<!-- Placeholder for Capstone project architecture diagram, showing the integration of perception (computer vision), planning (LLM), navigation, and manipulation modules in a simulated humanoid robot. -->
+
+## Warning Boxes
+
+:::caution LLM Limitations in Real-time Control
+-   **Latency**: LLM inference can introduce significant delays, making them unsuitable for direct, high-frequency real-time robot control.
+-   **Hallucinations**: LLMs can generate plausible but incorrect or unsafe actions if not properly constrained and validated.
+-   **Grounding**: Connecting abstract language commands to precise physical actions and sensor readings remains a challenge.
+-   **Safety and Robustness**: Ensuring safety-critical operations are not reliant on unvalidated LLM outputs is paramount; human oversight or robust fallback mechanisms are essential.
+:::

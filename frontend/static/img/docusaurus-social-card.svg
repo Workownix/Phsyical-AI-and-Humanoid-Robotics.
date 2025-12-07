@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#4F5C6C" />
+  <circle cx="640" cy="300" r="150" fill="#61DAFB" />
+  <rect x="540" y="450" width="200" height="200" fill="#61DAFB" />
+  <rect x="460" y="480" width="80" height="150" fill="#61DAFB" />
+  <rect x="740" y="480" width="80" height="150" fill="#61DAFB" />
+  <circle cx="590" cy="270" r="15" fill="#FF6B6B" />
+  <circle cx="690" cy="270" r="15" fill="#FF6B6B" />
+  <text x="640" y="680" text-anchor="middle" font-family="Arial" font-size="48" fill="white">Physical AI & Humanoid Robotics</text>
+  <text x="640" y="750" text-anchor="middle" font-family="Arial" font-size="32" fill="#FFD700">The Future Is Embodied</text>
+</svg>

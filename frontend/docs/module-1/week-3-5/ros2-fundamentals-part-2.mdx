@@ -1,0 +1,127 @@
+---
+title: 'Weeks 3-5: ROS 2 Fundamentals (Part 2)'
+description: 'Working with colcon workspaces, creating ROS 2 packages with Python, and using launch files for managing multiple nodes.'
+keywords: ['colcon', 'workspace', 'launch-files', 'parameters', 'ros2-packages']
+sidebar_position: 2
+sidebar_label: 'Weeks 3-5: ROS 2 Fundamentals (Part 2)'
+learning_objectives: ['Create and manage colcon workspaces for ROS 2', 'Build Python-based ROS 2 packages', 'Use launch files to manage multiple nodes', 'Configure nodes with parameters and remappings']
+prerequisites: ['docs/module-1/week-3-5/ros2-fundamentals-part-1']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'intermediate'
+chapter_number: 3
+---
+
+# ROS 2 Fundamentals - Part 2
+
+### Weekly Breakdown
+
+Weeks 3-5: ROS 2 Fundamentals
+- ROS 2 architecture and core concepts
+- Nodes, topics, services, and actions
+- Building ROS 2 packages with Python
+- Launch files and parameter management
+
+## Code Examples
+
+### Creating a colcon Workspace and Python ROS 2 Package
+
+```bash
+# Create a colcon workspace
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
+
+# Create a new ROS 2 Python package
+ros2 pkg create --build-type ament_python my_python_pkg
+cd src/my_python_pkg
+
+# Example package.xml (simplified)
+# <package format="3">
+#   <name>my_python_pkg</name>
+#   <version>0.0.0</version>
+#   <description>TODO: Package description</description>
+#   <maintainer email="user@example.com">Your Name</maintainer>
+#   <license>TODO: License declaration</license>
+#   <depend>rclpy</depend>
+#   <depend>std_msgs</depend>
+#   <test_depend>python3-pytest</test_depend>
+#   <export>
+#     <build_type>ament_python</build_type>
+#   </export>
+# </package>
+
+# Example setup.py (simplified)
+# from setuptools import setup
+#
+# package_name = 'my_python_pkg'
+#
+# setup(
+#     name=package_name,
+#     version='0.0.0',
+#     packages=[package_name],
+#     data_files=[
+#         ('share/ament_index/resource_index/packages',
+#             ['resource/' + package_name]),
+#         ('share/' + package_name, ['package.xml']),
+#     ],
+#     install_requires=['setuptools'],
+#     zip_safe=True,
+#     maintainer='Your Name',
+#     maintainer_email='user@example.com',
+#     description='TODO: Package description',
+#     license='TODO: License declaration',
+#     tests_require=['pytest'],
+#     entry_points={
+#         'console_scripts': [
+#             'talker = my_python_pkg.publisher_member_function:main',
+#             'listener = my_python_pkg.subscriber_member_function:main',
+#         ],
+#     },
+# )
+```
+
+### launch.py Example with Multiple Nodes and Parameters
+
+```python
+# my_robot_launch.py
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package='my_python_pkg',
+            executable='talker',
+            name='my_publisher',
+            parameters=[
+                {'message_prefix': 'RobotSays: '},
+                {'publish_frequency': 1.0}
+            ],
+        ),
+        Node(
+            package='my_python_pkg',
+            executable='listener',
+            name='my_subscriber',
+            remappings=[
+                ('topic', 'robot_chatter')
+            ],
+        ),
+        # Add more nodes as needed
+    ])
+```
+
+## Diagrams
+
+<!-- Placeholder for ROS 2 package structure diagram. -->
+
+## Warning Boxes
+
+:::info Best Practices for Launch Files
+-   **Modularity**: Break down complex systems into smaller, reusable launch files.
+-   **Parameters**: Use parameters to configure nodes without recompiling code.
+-   **Remapping**: Remap topics/services to connect nodes flexibly.
+-   **Conditional Launching**: Use `launch.actions.IncludeLaunchDescription` with `launch.conditions.IfCondition` for conditional loading.
+-   **Descriptions**: Add clear comments and descriptions to your launch files.
+:::

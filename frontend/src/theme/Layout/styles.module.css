@@ -1,0 +1,12 @@
+/* Layout wrapper to ensure footer stays at bottom */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure content takes available space but allows footer to stay at bottom */
+.content {
+  flex: 1 0 auto;
+  width: 100%;
+}

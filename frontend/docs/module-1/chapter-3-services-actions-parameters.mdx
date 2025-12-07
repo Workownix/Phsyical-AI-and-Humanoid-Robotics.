@@ -1,0 +1,338 @@
+---
+title: 'Chapter 3: Services, Actions, and Parameters'
+description: 'Exploring advanced ROS 2 communication patterns including services, actions, and parameter management for complex robotic behaviors.'
+keywords: ['ros2', 'services', 'actions', 'parameters', 'synchronous', 'asynchronous', 'configuration']
+sidebar_position: 3
+sidebar_label: 'Chapter 3: Services, Actions, and Parameters'
+learning_objectives: ['Implement service-server communication patterns', 'Create and use ROS 2 actions for complex tasks', 'Manage parameters for configurable nodes', 'Choose appropriate communication patterns for different use cases']
+prerequisites: ['docs/module-1/chapter-2-nodes-topics']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'intermediate'
+chapter_number: 3
+---
+
+# Chapter 3: Services, Actions, and Parameters
+
+## Introduction to Advanced Communication Patterns
+
+While nodes and topics provide a fundamental communication mechanism through the publisher-subscriber pattern, ROS 2 offers additional communication patterns better suited for specific types of interactions:
+
+- **Services**: For synchronous request-response communication
+- **Actions**: For long-running tasks with feedback and goal management
+- **Parameters**: For configuration and runtime adjustments
+
+## Services: Request-Response Pattern
+
+Services provide a synchronous communication pattern where a client sends a request to a server and waits for a response. This is useful for tasks that have a clear request-response cycle.
+
+### Creating a Service Server
+
+Here's an example of a simple addition service:
+
+```python
+# add_two_ints_server.py
+from example_interfaces.srv import AddTwoInts
+import rclpy
+from rclpy.node import Node
+
+class MinimalService(Node):
+
+    def __init__(self):
+        super().__init__('minimal_service')
+        self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback)
+
+    def add_two_ints_callback(self, request, response):
+        response.sum = request.a + request.b
+        self.get_logger().info('Incoming request: a: %d b: %d' % (request.a, request.b))
+        return response
+
+def main(args=None):
+    rclpy.init(args=args)
+    minimal_service = MinimalService()
+    rclpy.spin(minimal_service)
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### Creating a Service Client
+
+And the corresponding client:
+
+```python
+# add_two_ints_client.py
+import sys
+from example_interfaces.srv import AddTwoInts
+import rclpy
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = rclpy.create_node('minimal_client')
+    cli = node.create_client(AddTwoInts, 'add_two_ints')
+    req = AddTwoInts.Request()
+    req.a = int(sys.argv[1])
+    req.b = int(sys.argv[2])
+    while not cli.wait_for_service(timeout_sec=1.0):
+        node.get_logger().info('service not available, waiting again...')
+    future = cli.call_async(req)
+    rclpy.spin_until_future_complete(node, future)
+    if future.result() is not None:
+        node.get_logger().info('Result of add_two_ints: %d' % future.result().sum)
+    else:
+        node.get_logger().error('Service call failed %r' % (future.exception(),))
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### When to Use Services
+
+Services are appropriate for:
+
+- Mathematical computations
+- Database queries
+- Short-duration tasks
+- Tasks that return a single value
+- Synchronous operations where the client must wait for completion
+
+## Actions: Long-Running Tasks with Feedback
+
+Actions are designed for long-running tasks that require:
+
+- Goal management (send a goal, cancel a goal)
+- Continuous feedback during execution
+- Result reporting upon completion
+
+### Action Structure
+
+An action definition typically includes:
+
+- **Goal**: The desired outcome
+- **Feedback**: Progress information during execution
+- **Result**: The outcome upon completion or failure
+
+### Creating an Action Server
+
+Here's an example of a simple action server that performs a counting task:
+
+```python
+# count_until_server.py
+import rclpy
+from rclpy.action import ActionServer
+from rclpy.node import Node
+from rclpy.executors import MultiThreadedExecutor
+from rclpy.callback_groups import ReentrantCallbackGroup
+
+from example_interfaces.action import Fibonacci
+
+
+class FibonacciActionServer(Node):
+
+    def __init__(self):
+        super().__init__('fibonacci_action_server')
+        self._action_server = ActionServer(
+            self,
+            Fibonacci,
+            'fibonacci',
+            self.execute_callback,
+            callback_group=ReentrantCallbackGroup())
+
+    def execute_callback(self, goal_handle):
+        self.get_logger().info('Executing goal...')
+        
+        feedback_msg = Fibonacci.Feedback()
+        feedback_msg.sequence = [0, 1]
+
+        for i in range(1, goal_handle.request.order):
+            if goal_handle.is_cancel_requested:
+                goal_handle.canceled()
+                self.get_logger().info('Goal canceled')
+                return Fibonacci.Result()
+
+            feedback_msg.sequence.append(
+                feedback_msg.sequence[i] + feedback_msg.sequence[i-1])
+            
+            self.get_logger().info('Publishing feedback: {0}'.format(
+                feedback_msg.sequence))
+            
+            goal_handle.publish_feedback(feedback_msg)
+
+        goal_handle.succeed()
+        result = Fibonacci.Result()
+        result.sequence = feedback_msg.sequence
+        self.get_logger().info('Returning result: {0}'.format(result.sequence))
+
+        return result
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    fibonacci_action_server = FibonacciActionServer()
+
+    executor = MultiThreadedExecutor()
+    rclpy.spin(fibonacci_action_server, executor=executor)
+
+    fibonacci_action_server.destroy()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+### When to Use Actions
+
+Actions are appropriate for:
+
+- Navigation tasks (moving to a specific location)
+- Arm movement sequences
+- Calibration procedures
+- Any long-running task that needs feedback
+- Tasks that might need cancellation
+
+## Parameters: Configuration and Runtime Adjustments
+
+Parameters allow nodes to expose configurable values that can be changed at runtime or set during launch. This provides flexibility without recompiling code.
+
+### Declaring and Using Parameters
+
+```python
+# parameter_node.py
+import rclpy
+from rclpy.node import Node
+
+class ParameterNode(Node):
+
+    def __init__(self):
+        super().__init__('parameter_node')
+        self.declare_parameter('robot_name', 'humanoid_alpha')
+        self.declare_parameter('max_speed', 0.5)
+        self.declare_parameter('wheel_diameter', 0.1)
+
+        # Get parameter values
+        robot_name = self.get_parameter('robot_name').value
+        max_speed = self.get_parameter('max_speed').value
+        wheel_diameter = self.get_parameter('wheel_diameter').value
+
+        self.get_logger().info(f'Robot Name: {robot_name}')
+        self.get_logger().info(f'Max Speed: {max_speed} m/s')
+        self.get_logger().info(f'Wheel Diameter: {wheel_diameter} m')
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = ParameterNode()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+### Parameter Management
+
+Parameters can be:
+
+- Set at launch time via launch files
+- Changed during runtime using command line tools
+- Stored in YAML configuration files
+- Shared between nodes
+
+```bash
+# List parameters of a node
+ros2 param list
+
+# Get a parameter value
+ros2 param get /node_name parameter_name
+
+# Set a parameter value
+ros2 param set /node_name parameter_name value
+
+# Dump all parameters to a file
+ros2 param dump /node_name
+```
+
+## Practical Example: Integrated Communication System
+
+Here's how you might combine these communication patterns in a real robot:
+
+```python
+# robot_control_node.py
+import rclpy
+from rclpy.node import Node
+from rclpy.action import ActionServer
+from rclpy.parameter import Parameter
+
+from example_interfaces.srv import SetBool
+from example_interfaces.action import NavigateToPose
+from geometry_msgs.msg import Pose
+
+
+class RobotControlNode(Node):
+
+    def __init__(self):
+        super().__init__('robot_control_node')
+        
+        # Declare parameters for configuration
+        self.declare_parameter('max_linear_velocity', 0.5)
+        self.declare_parameter('max_angular_velocity', 1.0)
+        
+        # Service for enabling/disabling the robot
+        self.enable_service = self.create_service(
+            SetBool, 'enable_robot', self.enable_robot_callback)
+            
+        # Action server for navigation
+        self.navigation_action_server = ActionServer(
+            self, NavigateToPose, 'navigate_to_pose', self.execute_navigation)
+        
+        self.is_enabled = False
+
+    def enable_robot_callback(self, request, response):
+        self.is_enabled = request.data
+        response.success = True
+        if self.is_enabled:
+            response.message = 'Robot enabled'
+            self.get_logger().info('Robot enabled')
+        else:
+            response.message = 'Robot disabled'
+            self.get_logger().info('Robot disabled')
+        return response
+
+    def execute_navigation(self, goal_handle):
+        if not self.is_enabled:
+            goal_handle.abort()
+            return NavigateToPose.Result()
+
+        self.get_logger().info(f'Navigating to: {goal_handle.request.pose}')
+        
+        # Navigation logic would go here
+        # This is a simplified example
+        
+        result = NavigateToPose.Result()
+        result.result = True  # Indicate success
+        goal_handle.succeed()
+        return result
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = RobotControlNode()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Diagrams
+
+<!-- Placeholder for communication pattern comparison diagram (topics vs services vs actions). -->
+
+## Summary
+
+This chapter explored the advanced communication patterns in ROS 2: services for synchronous request-response, actions for long-running tasks with feedback, and parameters for configuration. These patterns together form the complete ROS 2 communication system that enables complex robotic behaviors. In the next chapter, we'll explore URDF for robot description and modeling.

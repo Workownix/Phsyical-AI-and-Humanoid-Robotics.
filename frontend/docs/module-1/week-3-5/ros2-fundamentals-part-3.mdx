@@ -1,0 +1,108 @@
+---
+title: 'Weeks 3-5: ROS 2 Fundamentals (Part 3)'
+description: 'Understanding URDF for robot description and parameter management in ROS 2 for configuring robot behavior.'
+keywords: ['urdf', 'robot-description', 'parameters', 'xml', 'humanoid-robotics']
+sidebar_position: 3
+sidebar_label: 'Weeks 3-5: ROS 2 Fundamentals (Part 3)'
+learning_objectives: ['Understand URDF format for robot description', 'Create URDF files for humanoid robots', 'Manage parameters in ROS 2 nodes', 'Configure robot behavior through parameters']
+prerequisites: ['docs/module-1/week-3-5/ros2-fundamentals-part-2']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'intermediate'
+chapter_number: 4
+---
+
+# ROS 2 Fundamentals - Part 3
+
+### Weekly Breakdown
+
+Weeks 3-5: ROS 2 Fundamentals
+- ROS 2 architecture and core concepts
+- Nodes, topics, services, and actions
+- Building ROS 2 packages with Python
+- Launch files and parameter management
+
+## Understanding URDF (Unified Robot Description Format) for Humanoids
+
+URDF is an XML format used in ROS to describe all elements of a robot. This includes its visual appearance, collision properties, and inertial properties. For humanoids, accurately defining the kinematic and dynamic properties of each link and joint is crucial for realistic simulation and control.
+
+### Code Examples: Simple URDF for a Robot Link and Joint
+
+```xml
+<?xml version="1.0"?>
+<robot name="simple_arm">
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.6 0.1 0.1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin xyz="0 0 0.3"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.0" upper="2.0" effort="10" velocity="10"/>
+  </joint>
+
+  <link name="link1">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.4"/>
+      </geometry>
+    </visual>
+  </link>
+
+</robot>
+```
+
+## Parameter Management in ROS 2
+
+ROS 2 parameters allow nodes to expose configurable values. These can be changed dynamically at runtime or set via launch files, providing flexibility without recompiling code.
+
+### Code Examples: Loading and Accessing ROS 2 Parameters from a Node
+
+```python
+# parameter_node.py
+import rclpy
+from rclpy.node import Node
+
+class ParameterNode(Node):
+
+    def __init__(self):
+        super().__init__('parameter_node')
+        self.declare_parameter('robot_name', 'humanoid_alpha')
+        self.declare_parameter('max_speed', 0.5)
+
+        robot_name = self.get_parameter('robot_name').value
+        max_speed = self.get_parameter('max_speed').value
+
+        self.get_logger().info(f'Robot Name: {robot_name}')
+        self.get_logger().info(f'Max Speed: {max_speed} m/s')
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = ParameterNode()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Diagrams
+
+<!-- Placeholder for URDF tree structure diagram for a simple humanoid arm. This diagram should visually represent the links and joints, their hierarchical relationship, and coordinate frames. -->
+
+## Warning Boxes
+
+:::caution Common URDF Errors
+-   **Coordinate Frames**: Ensure consistent right-hand rule for all joint and link frames. Z-axis typically points along the joint axis.
+-   **Joint Limits**: Incorrect `lower` and `upper` limits can cause unexpected behavior or simulation crashes.
+-   **Inertial Properties**: Missing or incorrect inertial properties (`<inertial>` tag) will lead to unrealistic physics simulation.
+-   **File Paths**: Verify all mesh (`<mesh filename="...">`) and texture file paths are correct and accessible.
+:::

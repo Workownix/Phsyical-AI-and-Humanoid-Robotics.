@@ -1,0 +1,1294 @@
+/* src/css/custom.css - Complete & Final Version */
+
+:root {
+  --ifm-color-primary: #004080;
+  --ifm-color-primary-dark: #004080;
+  --ifm-color-primary-darker: #004080;
+  --ifm-color-primary-darkest: #004080;
+  --ifm-color-primary-light: #004080;
+  --ifm-color-primary-lighter: #004080;
+  --ifm-color-primary-lightest: #004080;
+  --ifm-heading-color: #000000;
+  --ifm-font-color-base: #000000;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+/* Hero Override - Premium Purple Gradient */
+.hero--primary {
+  background: #004080 !important;
+  padding: 6rem 0 !important;
+  color: white !important;
+  margin: 0 !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  transform: translateX(-50%) !important;
+  overflow-x: hidden !important;
+}
+
+.hero--primary .container {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.hero__title { color: white !important; }
+.hero__subtitle { color: rgba(255,255,255,0.95) !important; }
+
+
+/* Heading with underline */
+.heading-underline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 1rem;
+  font-size: 2.8rem !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  margin-bottom: 1.5rem !important;
+}
+.heading-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 7px;
+  background: #004080;
+  border-radius: 10px;
+}
+
+/* Feature Section Heading */
+.heading-underline.feature-section-heading {
+  color: #000000 !important;
+}
+
+/* Card Styling - Premium Look */
+.card {
+  border-radius: 24px !important;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12) !important;
+  border: none !important;
+  transition: all 0.4s ease !important;
+  height: 100%;
+  margin: 0 auto !important;
+  width: 100% !important;
+  max-width: 450px !important;
+}
+.card:hover {
+  transform: translateY(-16px) !important;
+  box-shadow: 0 32px 70px rgba(0,0,0,0.22) !important;
+}
+
+/* Button Enhancements */
+.button--lg {
+  padding: 1.2rem 3.5rem !important;
+  font-size: 1.3rem !important;
+  border-radius: 16px !important;
+  font-weight: 700 !important;
+}
+.button--primary {
+  background: #004080 !important;
+  border: none !important;
+}
+.button--primary:hover {
+  background: #004080 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Green Primary Button (Start Reading) */
+.button[style*="background:#10B981"] {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.button[style*="background:#10B981"]:hover {
+  background: #004080 !important;
+  transform: translateY(-4px);
+}
+
+/* Curriculum Section - Same layout as Course Features */
+.curriculum-section {
+  margin: 4rem 0 !important;
+  padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing like features */
+  max-width: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important; /* Similar to feature background */
+  border-radius: 30px !important;
+  box-shadow: 0 20px 50px -15px rgba(0,0,0,0.1), 0 10px 20px -10px rgba(0,0,0,0.08) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+}
+
+.curriculum-section .container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.curriculum-section .text--center {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* Curriculum Cards Grid - same as feature cards */
+.curriculum-cards {
+  display: grid !important;
+  width: 100% !important;
+  margin: 2rem 0 0 !important;
+  gap: 2rem !important;
+  padding: 0 1rem !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Mobile: 1 card with full content visibility */
+@media (max-width: 767px) {
+  .curriculum-cards {
+    grid-template-columns: 1fr !important;
+    padding: 0 0.5rem !important;
+  }
+}
+
+/* Tablet: 2 cards with proper spacing */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .curriculum-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    padding: 0 1rem !important;
+  }
+}
+
+/* Desktop: 4 cards with proper width for content */
+@media (min-width: 1200px) {
+  .curriculum-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    padding: 0 2rem !important;
+  }
+}
+
+.curriculum-cards .card {
+  border-radius: 20px !important;
+  box-shadow: 0 10px 25px -6px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05) !important;
+  padding: 2.5rem 1.8rem !important; /* Match feature card padding */
+  background: white !important; /* Match feature card background */
+  border: 2px solid rgba(255,255,255, 0.8) !important; /* Match feature card border */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  transition: all 0.3s ease !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 320px !important; /* Match feature card min-height */
+  overflow: visible !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
+}
+
+.curriculum-subtitle {
+  font-size: 1.4rem !important;
+  color: #000000 !important;
+  max-width: 800px !important;
+  margin: 0 auto 3rem !important;
+  line-height: 1.6 !important;
+  font-weight: 500 !important;
+}
+
+.curriculum-avatar {
+  margin: 0 auto 1.5rem !important;
+  border-radius: 50% !important;
+  width: 90px !important;
+  height: 90px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 4rem !important; /* Match feature avatar size */
+  font-weight: bold !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important; /* Match feature avatar */
+  background: #004080 !important; /* Match feature avatar */
+  color: white !important;
+  flex-shrink: 0 !important;
+}
+
+.curriculum-card-title {
+  text-align: center !important;
+  font-weight: 700 !important; /* Match feature title weight */
+  margin: 1.2rem 0 !important;
+  font-size: 1.3rem !important;
+  line-height: 1.3 !important;
+  color: #000000 !important; /* Match feature title color */
+  width: 100% !important;
+  min-height: 60px !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Feature Section - Responsive Grid with Left Spacing */
+.feature-section {
+  margin: 4rem 0 !important;
+  padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing */
+  max-width: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  border-radius: 30px !important;
+  box-shadow: 0 20px 50px -15px rgba(0,0,0,0.1), 0 10px 20px -10px rgba(0,0,0,0.08) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+}
+
+.feature-section .container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.feature-section .text--center {
+  width: 100% !important;
+  text-align: center !important;
+}
+
+/* Feature Cards Grid */
+.feature-cards {
+  display: grid !important;
+  width: 100% !important;
+  margin: 2rem 0 0 !important;
+  gap: 2rem !important;
+  padding: 0 1rem !important;
+  justify-content: center !important;
+}
+
+/* Mobile: 1 card */
+@media (max-width: 767px) {
+  .feature-cards {
+    grid-template-columns: 1fr !important;
+    padding: 0 0.5rem !important;
+  }
+}
+
+/* Tablet: 2 cards */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .feature-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    padding: 0 1rem !important;
+  }
+}
+
+/* Desktop: 4 cards */
+@media (min-width: 1200px) {
+  .feature-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    padding: 0 2rem !important;
+  }
+}
+
+.feature-cards .card {
+  border-radius: 20px !important;
+  box-shadow: 0 10px 25px -6px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05) !important;
+  padding: 2.5rem 1.8rem !important;
+  background: white !important;
+  border: 2px solid rgba(255,255,255, 0.8) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  transition: all 0.3s ease !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 320px !important;
+  overflow: visible !important;
+  word-break: break-word !important;
+  hyphens: auto !important;
+}
+
+.feature-subtitle {
+  font-size: 1.3rem !important;
+  color: #000000 !important;
+  max-width: 700px !important;
+  margin: 0 auto 3rem !important;
+  line-height: 1.6 !important;
+  font-weight: 500 !important;
+}
+
+.feature-avatar {
+  margin: 0 auto 1.5rem !important;
+  border-radius: 50% !important;
+  width: 90px !important;
+  height: 90px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 4rem !important;
+  font-weight: bold !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important;
+  background: #004080 !important;
+  flex-shrink: 0 !important;
+}
+
+.feature-card-title {
+  text-align: center !important;
+  font-weight: 700 !important;
+  margin: 1.2rem 0 !important;
+  font-size: 1.3rem !important;
+  line-height: 1.3 !important;
+  color: #000000 !important;
+  width: 100% !important;
+  min-height: 60px !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  hyphens: auto !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Learning Section Styling */
+.learning-section {
+  margin: 4rem 0 !important;
+  padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing */
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+}
+
+.learning-section .container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.learning-section .text--center {
+  width: 100% !important;
+}
+
+.learning-section .row {
+  margin: 0 !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.learning-section .col {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0 1rem !important;
+}
+
+.learning-content {
+  text-align: left !important;
+  max-width: 900px !important;
+  width: 100% !important;
+}
+
+.learning-list {
+  text-align: left !important;
+  font-size: 1.25rem !important;
+  line-height: 2.4 !important;
+  padding-left: 2rem !important;
+  margin: 0 !important;
+  list-style: none !important;
+  position: relative !important;
+}
+
+.learning-list li {
+  margin-bottom: 1.2rem !important;
+  position: relative !important;
+  color: #000000 !important;
+  padding-left: 2.5rem !important;
+}
+
+.learning-list li::before {
+  content: '✓' !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #004080 !important;
+  font-weight: bold !important;
+  font-size: 1.5rem !important;
+  top: 0.2rem !important;
+}
+
+/* Key Features Section Styling */
+.key-features-section {
+  margin: 4rem 0 !important;
+  padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing */
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+}
+
+.key-features-section .container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.key-features-section .row {
+  margin: 0 !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.key-features-section .col {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0 1rem !important;
+}
+
+.key-features-section .card {
+  border-radius: 24px !important;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 10px 30px -10px rgba(0, 0, 0, 0.3) !important;
+  padding: 3rem !important;
+  height: 100% !important;
+  background: #004080 !important;
+  color: white !important;
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  max-width: 800px !important; /* Reduced max-width to better accommodate left spacing */
+  text-align: center !important;
+}
+
+.key-features-section .card::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -50px !important;
+  right: -50px !important;
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.05) !important;
+  z-index: 0 !important;
+}
+
+.key-features-section .card::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -80px !important;
+  right: -30px !important;
+  width: 250px !important;
+  height: 250px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.03) !important;
+  z-index: 0 !important;
+}
+
+.key-features-title {
+  color: white !important;
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  margin-bottom: 2.5rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+  text-align: center !important;
+}
+
+.key-features-list {
+  text-align: left !important;
+  font-size: 1.25rem !important;
+  line-height: 2.4 !important;
+  padding-left: 2rem !important;
+  margin: 0 auto !important;
+  list-style: none !important;
+  position: relative !important;
+  z-index: 1 !important;
+  color: rgba(255,255,255,0.95) !important;
+  max-width: 800px !important;
+  width: 100% !important;
+}
+
+.key-features-list li {
+  margin-bottom: 1.2rem !important;
+  position: relative !important;
+  padding-left: 2.5rem !important;
+}
+
+.key-features-list li::before {
+  content: '✓' !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #004080 !important;
+  font-weight: bold !important;
+  font-size: 1.5rem !important;
+  top: 0.2rem !important;
+}
+
+.key-features-list strong {
+  color: white !important;
+}
+
+/* Feature Section Background */
+div[style*="background:linear-gradient(135deg,#f0f9ff"] {
+  border-radius: 40px !important;
+  margin: 6rem 0 !important;
+}
+
+/* Remove unwanted margins/paddings */
+.container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: hidden !important;
+}
+.row { margin: 0 -1rem; }
+.col { padding: 0 1rem; }
+
+/* Specific overrides for full-width sections */
+.learning-section .col,
+.key-features-section .col {
+  padding: 0 0.75rem !important;
+  flex: 0 0 calc(25% - 1.5rem) !important;
+  max-width: calc(25% - 1.5rem) !important;
+}
+
+/* Ensure all full-width sections have consistent row margins */
+.learning-section .row,
+.key-features-section .row {
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+}
+
+/* Remove extra spacing that might cause overflow */
+.curriculum-section .card,
+.feature-section .card,
+.learning-section .learning-content,
+.key-features-section .card {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+/* Adjust section padding to prevent overflow */
+.curriculum-section,
+.feature-section,
+.learning-section,
+.key-features-section {
+  overflow-x: hidden !important;
+}
+
+/* More specific col handling for different screen sizes */
+@media (min-width: 1200px) {
+  .learning-section .col,
+  .key-features-section .col {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .learning-section .col,
+  .key-features-section .col {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Footer Section */
+footer {
+  background: #004080 !important;
+  color: white !important;
+  padding: 4rem 0 2rem !important;
+  margin-top: auto !important;
+}
+
+footer .container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+footer .footer__links {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  gap: 2rem !important;
+  margin-bottom: 3rem !important;
+}
+
+footer .footer__col {
+  flex: 1 !important;
+  min-width: 200px !important;
+  flex-basis: 200px !important;
+}
+
+footer .footer__title {
+  color: white !important;
+  margin-bottom: 1.5rem !important;
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+footer .footer__items {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+footer .footer__item {
+  margin-bottom: 0.8rem !important;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+
+footer a:hover {
+  color: white !important;
+}
+
+footer .footer__bottom {
+  padding-top: 2rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  margin-top: 2rem !important;
+}
+
+footer .footer__copyright {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.9rem !important;
+  margin: 0 !important;
+}
+
+/* Tablet specific improvements */
+@media (min-width: 768px) and (max-width: 1024px) {
+  footer {
+    padding: 3rem 0 1.5rem !important;
+  }
+
+  footer .container {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  footer .footer__links {
+    gap: 1.5rem !important;
+  }
+
+  footer .footer__col {
+    min-width: 180px !important;
+    flex-basis: 180px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  footer {
+    padding: 2.5rem 0 1.5rem !important;
+  }
+
+  footer .container {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  footer .footer__links {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+    align-items: center !important;
+  }
+
+  footer .footer__col {
+    flex: 1 1 100% !important;
+    min-width: unset !important;
+    flex-basis: unset !important;
+    text-align: center !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  footer .footer__title {
+    font-size: 1.1rem !important;
+  }
+
+  footer .footer__copyright {
+    font-size: 0.8rem !important;
+    text-align: center !important;
+  }
+
+  footer .footer__bottom {
+    text-align: center !important;
+  }
+}
+
+/* Additional responsive improvements for very small screens */
+@media (max-width: 480px) {
+  footer {
+    padding: 2rem 0 1rem !important;
+  }
+
+  footer .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  footer .footer__links {
+    gap: 1.5rem !important;
+  }
+
+  footer .footer__col {
+    margin-bottom: 1rem !important;
+  }
+
+  footer .footer__title {
+    font-size: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  footer .footer__item {
+    margin-bottom: 0.6rem !important;
+  }
+
+  footer .footer__copyright {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Generic Centering Class */
+.centered-text {
+  text-align: center;
+}
+
+/* Last section with calc margins */
+.container.text--center.padding-vert--lg {
+  padding: 5rem 1rem 5rem 5rem !important; /* Added left spacing */
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  position: relative !important;
+  overflow-x: hidden !important;
+  text-align: center !important;
+}
+
+/* Responsive Fixes */
+.col { flex: 0 0 100% !important; max-width: 100% !important; }
+.hero--primary { padding: 3rem 0 !important; }
+h1, h2 { font-size: 2.5rem !important; }
+.button--lg { padding: 1rem 2.5rem !important; font-size: 1.2rem !important; }
+.card { max-width: 100% !important; }
+.learning-content { max-width: 100% !important; }
+.key-features-section .card { max-width: 100% !important; }
+
+/* Mobile & Tablet Specific Responsive Improvements */
+@media (max-width: 767px) {
+  .hero--primary {
+    padding: 2.5rem 1rem !important;
+    margin: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  .hero__title {
+    font-size: 2.2rem !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero__subtitle {
+    font-size: 1.3rem !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .container.text--center {
+    padding: 0 1rem !important;
+  }
+
+  .avatar.avatar--xxl {
+    width: 150px !important;
+    height: 150px !important;
+    margin: 0 auto 1.5rem !important;
+  }
+
+  .avatar.avatar--xxl img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .button-group {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: center !important;
+  }
+
+  .button.button--lg {
+    width: 100% !important;
+    max-width: 300px !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.1rem !important;
+  }
+
+  .feature-section,
+  .learning-section,
+  .key-features-section {
+    padding: 3rem 1rem 3rem 3rem !important; /* Maintain left spacing */
+    margin: 0 !important;
+  }
+
+  .heading-underline {
+    font-size: 2rem !important;
+    padding-bottom: 0.8rem !important;
+  }
+
+  .curriculum-subtitle,
+  .feature-subtitle {
+    font-size: 1.1rem !important;
+    margin: 0 auto 2rem !important;
+  }
+
+  .curriculum-card-title,
+  .feature-card-title {
+    font-size: 1.2rem !important;
+    min-height: auto !important;
+  }
+
+  .curriculum-avatar,
+  .feature-avatar {
+    width: 60px !important;
+    height: 60px !important;
+    font-size: 1.8rem !important;
+  }
+
+  .curriculum-cards .card,
+  .feature-cards .card {
+    padding: 2rem 1.5rem !important;
+  }
+
+  .learning-list,
+  .key-features-list {
+    font-size: 1.1rem !important;
+    line-height: 2 !important;
+  }
+
+  .learning-list li,
+  .key-features-list li {
+    margin-bottom: 0.8rem !important;
+    padding-left: 1.8rem !important;
+  }
+
+  .learning-list li::before,
+  .key-features-list li::before {
+    font-size: 1.3rem !important;
+    top: 0.1rem !important;
+  }
+
+  .key-features-title {
+    font-size: 2rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .container.text--center.padding-vert--lg {
+    padding: 3rem 1rem 3rem 3rem !important; /* Maintain left spacing */
+  }
+
+  .container.text--center.padding-vert--lg h2 {
+    font-size: 2rem !important;
+  }
+
+  .container.text--center.padding-vert--lg p {
+    font-size: 1.1rem !important;
+    margin: 0 auto 2rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .container.text--center.padding-vert--lg .button.button--lg {
+    padding: 1rem 2.5rem !important;
+    font-size: 1.1rem !important;
+  }
+
+  .highlight-card {
+    padding: 2rem 1.5rem !important;
+  }
+}
+
+/* Tablet Specific Improvements */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero--primary {
+    padding: 3.5rem 1rem !important;
+  }
+
+  /* Learning section column adjustment for tablet */
+  .learning-section .col--8 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .learning-section .col--offset-2 {
+    margin-left: 0 !important;
+  }
+
+  .hero__title {
+    font-size: 2.8rem !important;
+  }
+
+  .hero__subtitle {
+    font-size: 1.6rem !important;
+  }
+
+  .avatar.avatar--xxl {
+    width: 170px !important;
+    height: 170px !important;
+  }
+
+  .avatar.avatar--xxl img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .button-group {
+    gap: 1.5rem !important;
+  }
+
+  .button.button--lg {
+    font-size: 1.2rem !important;
+    padding: 1.1rem 2.5rem !important;
+  }
+
+  .feature-section,
+  .learning-section,
+  .key-features-section {
+    padding: 4rem 1rem 4rem 4rem !important; /* Maintain left spacing */
+  }
+
+  .heading-underline {
+    font-size: 2.4rem !important;
+  }
+
+  .curriculum-card-title,
+  .feature-card-title {
+    font-size: 1.25rem !important;
+  }
+
+  .curriculum-avatar,
+  .feature-avatar {
+    width: 90px !important;
+    height: 90px !important;
+    font-size: 4rem !important;
+  }
+
+  .curriculum-cards .card,
+  .feature-cards .card {
+    padding: 2.5rem 1.8rem !important;
+  }
+
+  .curriculum-subtitle {
+    font-size: 1.2rem !important;
+  }
+
+  .learning-list,
+  .key-features-list {
+    font-size: 1.15rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .key-features-title {
+    font-size: 2.3rem !important;
+  }
+
+  /* Specific tablet improvements for learning and key features */
+  .learning-content {
+    max-width: 800px !important;
+    padding: 0 1rem !important;
+  }
+
+  .key-features-section .card {
+    max-width: 900px !important;
+    padding: 2.8rem 2rem !important; /* Slightly reduced padding for tablet */
+    margin: 0 auto !important; /* Ensure card is centered */
+  }
+
+  /* Key Features specific tablet improvements */
+  .key-features-section .row {
+    flex-wrap: nowrap !important; /* Keep items together */
+    justify-content: center !important; /* Center content */
+  }
+
+  .key-features-section .col--12 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .key-features-section .card.highlight-card {
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 900px !important;
+  }
+
+  .container.text--center.padding-vert--lg {
+    padding: 4rem 1rem 4rem 4rem !important; /* Maintain left spacing */
+  }
+
+  .container.text--center.padding-vert--lg h2 {
+    font-size: 2.2rem !important;
+  }
+
+  .container.text--center.padding-vert--lg p {
+    font-size: 1.2rem !important;
+    max-width: 600px !important;
+  }
+
+  .button.button--lg {
+    padding: 1.1rem 2.8rem !important;
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Additional responsive improvements */
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 1.8rem !important;
+  }
+
+  .hero__subtitle {
+    font-size: 1.2rem !important;
+  }
+
+  .avatar.avatar--xxl {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .avatar.avatar--xxl img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .heading-underline {
+    font-size: 1.8rem !important;
+  }
+
+  .curriculum-subtitle,
+  .feature-subtitle {
+    font-size: 1rem !important;
+  }
+
+  .learning-list,
+  .key-features-list {
+    font-size: 1rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+  .learning-list li,
+  .key-features-list li {
+    padding-left: 1.5rem !important;
+  }
+
+  .key-features-title {
+    font-size: 1.8rem !important;
+  }
+
+  .button.button--lg {
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.8rem !important;
+  }
+}
+
+/* Curriculum Cards Mobile Improvements */
+@media (max-width: 767px) {
+  .curriculum-cards {
+    gap: 1.5rem !important;
+  }
+
+  .curriculum-cards .card {
+    min-height: 380px !important;
+    padding: 2rem 1.2rem !important;
+  }
+
+  .curriculum-avatar {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 3.5rem !important;
+  }
+
+  .curriculum-card-title {
+    font-size: 1.25rem !important;
+    min-height: 60px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .curriculum-cards {
+    gap: 1.25rem !important;
+  }
+
+  .curriculum-cards .card {
+    min-height: 360px !important;
+    padding: 1.8rem 1rem !important;
+  }
+
+  .curriculum-card-title {
+    font-size: 1.15rem !important;
+    min-height: 60px !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .curriculum-avatar {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 3rem !important;
+  }
+
+  .feature-cards .card {
+    min-height: 340px !important;
+    padding: 2rem 1.2rem !important;
+  }
+
+  .feature-avatar {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 3.5rem !important;
+  }
+
+  .feature-card-title {
+    font-size: 1.25rem !important;
+    min-height: 60px !important;
+  }
+}
+
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden !important;
+}
+
+/* Improve mobile typography */
+@media (max-width: 767px) {
+  body {
+    font-size: 0.95rem !important;
+  }
+
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.8rem !important;
+  }
+
+  h3 {
+    font-size: 1.5rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+  }
+}
+
+/* Additional responsive improvements for very small screens */
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 1.8rem !important;
+  }
+
+  .hero__subtitle {
+    font-size: 1.2rem !important;
+  }
+
+  .avatar.avatar--xxl {
+    width: 140px !important;
+    height: 140px !important;
+  }
+
+  .avatar.avatar--xxl img {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .button.button--lg {
+    font-size: 1rem !important;
+    padding: 0.9rem 1.8rem !important;
+  }
+
+  /* Ready to Start Your Journey section specific improvements for very small screens */
+  .container.text--center.padding-vert--lg {
+    padding: 2.5rem 1rem 2.5rem 2rem !important; /* Maintain left spacing */
+  }
+
+  .container.text--center.padding-vert--lg h2 {
+    font-size: 1.7rem !important;
+  }
+
+  .container.text--center.padding-vert--lg p {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .container.text--center.padding-vert--lg .button.button--lg {
+    width: 100% !important;
+    max-width: 280px !important;
+    padding: 0.9rem 1.8rem !important;
+    font-size: 1rem !important;
+  }
+
+
+  /* Feature section specific improvements for very small screens */
+  .feature-section {
+    padding: 2rem 1rem !important;
+  }
+
+  .feature-subtitle {
+    font-size: 1rem !important;
+  }
+
+  .feature-cards .card {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .feature-card-title {
+    font-size: 1.1rem !important;
+  }
+
+  .feature-avatar {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.5rem !important;
+  }
+
+  /* Key Features section specific improvements for very small screens */
+  .key-features-section {
+    padding: 2rem 1rem 2rem 2rem !important; /* Maintain left spacing */
+  }
+
+  .key-features-title {
+    font-size: 1.6rem !important;
+    margin-bottom: 1.2rem !important;
+  }
+
+  .key-features-list {
+    font-size: 0.95rem !important;
+    padding-left: 1.2rem !important;
+  }
+
+  .key-features-list li {
+    margin-bottom: 0.6rem !important;
+  }
+
+  .key-features-section .card {
+    padding: 2rem 1.5rem !important;
+  }
+}

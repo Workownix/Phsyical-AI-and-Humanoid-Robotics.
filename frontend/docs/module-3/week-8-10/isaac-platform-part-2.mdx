@@ -1,0 +1,104 @@
+---
+title: 'Weeks 8-10: NVIDIA Isaac Platform (Part 2)'
+description: 'Hardware-accelerated VSLAM using Isaac ROS and integration with Nav2 for path planning in humanoid robots.'
+keywords: ['isaac-ros', 'vslam', 'nav2', 'navigation', 'perception', 'path-planning']
+sidebar_position: 2
+sidebar_label: 'Weeks 8-10: NVIDIA Isaac Platform (Part 2)'
+learning_objectives: ['Implement hardware-accelerated VSLAM with Isaac ROS', 'Integrate Isaac ROS perception with Nav2 navigation', 'Configure path planning for bipedal humanoid movement', 'Optimize SLAM performance for real-time applications']
+prerequisites: ['docs/module-3/week-8-10/isaac-platform-part-1']
+estimated_time: 120
+content_type: 'hands-on-lab'
+difficulty: 'advanced'
+chapter_number: 2
+---
+
+# NVIDIA Isaac Platform - Part 2
+
+### Weekly Breakdown
+
+Weeks 8-10: NVIDIA Isaac Platform
+- NVIDIA Isaac SDK and Isaac Sim
+- AI-powered perception and manipulation
+- Reinforcement learning for robot control
+- Sim-to-real transfer techniques
+
+## Isaac ROS: Hardware-Accelerated VSLAM (Visual SLAM) and Navigation
+
+Isaac ROS is a collection of ROS 2 packages that leverage NVIDIA GPUs for accelerated performance in robotics applications, particularly in areas like VSLAM (Visual Simultaneous Localization and Mapping) and navigation. This acceleration is critical for real-time perception and autonomous operation in humanoid robots.
+
+### Code Examples: Isaac ROS VSLAM Node Setup (Conceptual)
+
+```python
+# Example of launching Isaac ROS Visual SLAM node (conceptual)
+import os
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+
+def generate_launch_description():
+    # Get path to isaac_ros_visual_slam package
+    isaac_ros_visual_slam_dir = get_package_share_directory('isaac_ros_visual_slam')
+    # Configuration for VSLAM (e.g., sensor_qos, map_frame, base_frame)
+    vslam_config_path = os.path.join(isaac_ros_visual_slam_dir, 'config', 'vslam_params.yaml')
+
+    visual_slam_node = Node(
+        package='isaac_ros_visual_slam',
+        executable='isaac_ros_visual_slam',
+        name='visual_slam',
+        output='screen',
+        parameters=[vslam_config_path],
+        remappings=[
+            ('camera/image', '/my_robot/camera/image_raw'),
+            ('camera/info', '/my_robot/camera/camer-info')
+        ]
+    )
+
+    return LaunchDescription([
+        visual_slam_node
+    ])
+```
+
+### Code Examples: Nav2 Integration with Isaac ROS for Path Planning (Conceptual)
+
+Nav2 (Navigation2) is a flexible and powerful navigation framework for ROS 2. Isaac ROS can provide the necessary perception data (e.g., optimized occupancy grid maps from VSLAM) to feed into Nav2's planning and control stack, enabling efficient path planning for bipedal humanoids.
+
+```xml
+<!-- Example: Nav2 launch file snippet integrating Isaac ROS perception (conceptual) -->
+<launch>
+  <node pkg="nav2_amcl" exec="amcl" name="amcl_node">
+    <param name="use_sim_time" value="True"/>
+    <!-- ... other AMCL parameters ... -->
+  </node>
+
+  <node pkg="nav2_map_server" exec="map_server" name="map_server_node">
+    <param name="use_sim_time" value="True"/>
+    <param name="yaml_filename" value="$(find my_robot_nav)/maps/my_environment.yaml"/>
+  </node>
+
+  <node pkg="nav2_planner" exec="planner_server" name="planner_server_node">
+    <param name="use_sim_time" value="True"/>
+    <!-- ... planner parameters ... -->
+  </node>
+
+  <node pkg="nav2_controller" exec="controller_server" name="controller_server_node">
+    <param name="use_sim_time" value="True"/>
+    <!-- ... controller parameters ... -->
+  </node>
+
+  <!-- The Isaac ROS VSLAM node would publish /tf and /map topics that AMCL/Map Server can use -->
+
+</launch>
+```
+
+## Diagrams
+
+<!-- Placeholder for VSLAM pipeline diagram (e.g., sensor input -> feature extraction -> pose estimation -> map building -> localization). -->
+
+## Warning Boxes
+
+:::caution SLAM Accuracy Limitations and Environmental Dependencies
+-   **Lighting Conditions**: VSLAM performance can degrade significantly in poor lighting or highly reflective environments.
+-   **Dynamic Environments**: Moving objects or people in the environment can confuse SLAM algorithms.
+-   **Featureless Areas**: Areas with a lack of distinct visual features (e.g., long corridors, plain walls) can lead to poor tracking.
+-   **Computational Load**: High-resolution imagery or fast motion can increase the computational demands on the GPU, potentially impacting real-time performance.
+:::
