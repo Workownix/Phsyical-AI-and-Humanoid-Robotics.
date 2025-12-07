@@ -1,26 +1,54 @@
-/* src/css/custom.css - Complete & Final Version */
+/* src/css/custom.css - Complete & Final Version with Dark & Light Themes */
 
 :root {
+  /* Light Theme Colors */
   --ifm-color-primary: #004080;
-  --ifm-color-primary-dark: #004080;
-  --ifm-color-primary-darker: #004080;
-  --ifm-color-primary-darkest: #004080;
-  --ifm-color-primary-light: #004080;
-  --ifm-color-primary-lighter: #004080;
-  --ifm-color-primary-lightest: #004080;
-  --ifm-heading-color: #000000;
-  --ifm-font-color-base: #000000;
+  --ifm-color-primary-dark: #003366;
+  --ifm-color-primary-darker: #002b55;
+  --ifm-color-primary-darkest: #002244;
+  --ifm-color-primary-light: #004db3;
+  --ifm-color-primary-lighter: #0059cc;
+  --ifm-color-primary-lightest: #0066e6;
+  --ifm-heading-color: #001f3f; /* Dark navy blue */
+  --ifm-font-color-base: #003366; /* Light blue mixture */
+  --ifm-background-color: #ffffff;
+  --ifm-text-color: #003366;
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-footer-background-color: #004080;
+  --ifm-card-background-color: #ffffff;
+  --ifm-link-color: #004080;
+}
+
+/* Dark Theme Colors */
+[data-theme='dark'] {
+  --ifm-color-primary: #0088ff;
+  --ifm-color-primary-dark: #0077e6;
+  --ifm-color-primary-darker: #0066cc;
+  --ifm-color-primary-darkest: #0055b3;
+  --ifm-color-primary-light: #3399ff;
+  --ifm-color-primary-lighter: #66adff;
+  --ifm-color-primary-lightest: #99c2ff;
+  --ifm-heading-color: #ffffff;
+  --ifm-font-color-base: #ffffff;
+  --ifm-background-color: #000000;
+  --ifm-text-color: #ffffff;
+  --ifm-navbar-background-color: #000000;
+  --ifm-footer-background-color: #000000;
+  --ifm-card-background-color: #1a1a1a;
+  --ifm-link-color: #0088ff;
 }
 
 body {
+  background-color: var(--ifm-background-color) !important;
+  color: var(--ifm-text-color) !important;
   overflow-x: hidden !important;
 }
 
 /* Hero Override - Premium Purple Gradient */
 .hero--primary {
-  background: #004080 !important;
+  background: var(--ifm-color-primary) !important;
   padding: 6rem 0 !important;
-  color: white !important;
+  color: var(--ifm-text-color) !important;
   margin: 0 !important;
   margin-left: calc(-50vw + 50%) !important;
   margin-right: calc(-50vw + 50%) !important;
@@ -36,8 +64,12 @@ body {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
-.hero__title { color: white !important; }
-.hero__subtitle { color: rgba(255,255,255,0.95) !important; }
+.hero__title {
+  color: var(--ifm-text-color) !important;
+}
+.hero__subtitle {
+  color: rgba(255,255,255,0.95) !important;
+}
 
 
 /* Heading with underline */
@@ -47,7 +79,7 @@ body {
   padding-bottom: 1rem;
   font-size: 2.8rem !important;
   font-weight: 800 !important;
-  color: #000000 !important;
+  color: var(--ifm-heading-color) !important;
   margin-bottom: 1.5rem !important;
 }
 .heading-underline::after {
@@ -58,13 +90,13 @@ body {
   transform: translateX(-50%);
   width: 100px;
   height: 7px;
-  background: #004080;
+  background: var(--ifm-color-primary);
   border-radius: 10px;
 }
 
 /* Feature Section Heading */
 .heading-underline.feature-section-heading {
-  color: #000000 !important;
+  color: var(--ifm-heading-color) !important;
 }
 
 /* Card Styling - Premium Look */
@@ -72,6 +104,7 @@ body {
   border-radius: 24px !important;
   box-shadow: 0 15px 35px rgba(0,0,0,0.12) !important;
   border: none !important;
+  background-color: var(--ifm-card-background-color) !important;
   transition: all 0.4s ease !important;
   height: 100%;
   margin: 0 auto !important;
@@ -91,11 +124,12 @@ body {
   font-weight: 700 !important;
 }
 .button--primary {
-  background: #004080 !important;
+  background: var(--ifm-color-primary) !important;
   border: none !important;
+  color: var(--ifm-text-color) !important;
 }
 .button--primary:hover {
-  background: #004080 !important;
+  background: var(--ifm-color-primary-dark) !important;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
@@ -105,7 +139,7 @@ body {
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 .button[style*="background:#10B981"]:hover {
-  background: #004080 !important;
+  background: var(--ifm-color-primary) !important;
   transform: translateY(-4px);
 }
 
@@ -115,7 +149,7 @@ body {
   padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing like features */
   max-width: 100% !important;
   width: 100% !important;
-  background: #FFFFFF !important; /* Similar to feature background */
+  background: var(--ifm-background-color) !important; /* Similar to feature background */
   border-radius: 30px !important;
   box-shadow: 0 20px 50px -15px rgba(0,0,0,0.1), 0 10px 20px -10px rgba(0,0,0,0.08) !important;
   position: relative !important;
@@ -174,7 +208,7 @@ body {
   border-radius: 20px !important;
   box-shadow: 0 10px 25px -6px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05) !important;
   padding: 2.5rem 1.8rem !important; /* Match feature card padding */
-  background: white !important; /* Match feature card background */
+  background: var(--ifm-card-background-color) !important; /* Match feature card background */
   border: 2px solid rgba(255,255,255, 0.8) !important; /* Match feature card border */
   display: flex !important;
   flex-direction: column !important;
@@ -191,7 +225,7 @@ body {
 
 .curriculum-subtitle {
   font-size: 1.4rem !important;
-  color: #000000 !important;
+  color: var(--ifm-text-color) !important;
   max-width: 800px !important;
   margin: 0 auto 3rem !important;
   line-height: 1.6 !important;
@@ -209,8 +243,8 @@ body {
   font-size: 4rem !important; /* Match feature avatar size */
   font-weight: bold !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important; /* Match feature avatar */
-  background: #004080 !important; /* Match feature avatar */
-  color: white !important;
+  background: var(--ifm-color-primary) !important; /* Match feature avatar */
+  color: var(--ifm-text-color) !important;
   flex-shrink: 0 !important;
 }
 
@@ -220,7 +254,7 @@ body {
   margin: 1.2rem 0 !important;
   font-size: 1.3rem !important;
   line-height: 1.3 !important;
-  color: #000000 !important; /* Match feature title color */
+  color: var(--ifm-heading-color) !important; /* Match feature title color */
   width: 100% !important;
   min-height: 60px !important;
   word-break: break-word !important;
@@ -238,7 +272,7 @@ body {
   padding: 4rem 1rem 4rem 5rem !important; /* Added left spacing */
   max-width: 100% !important;
   width: 100% !important;
-  background: #FFFFFF !important;
+  background: var(--ifm-background-color) !important;
   border-radius: 30px !important;
   box-shadow: 0 20px 50px -15px rgba(0,0,0,0.1), 0 10px 20px -10px rgba(0,0,0,0.08) !important;
   position: relative !important;
@@ -296,7 +330,7 @@ body {
   border-radius: 20px !important;
   box-shadow: 0 10px 25px -6px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05) !important;
   padding: 2.5rem 1.8rem !important;
-  background: white !important;
+  background: var(--ifm-card-background-color) !important;
   border: 2px solid rgba(255,255,255, 0.8) !important;
   display: flex !important;
   flex-direction: column !important;
@@ -313,7 +347,7 @@ body {
 
 .feature-subtitle {
   font-size: 1.3rem !important;
-  color: #000000 !important;
+  color: var(--ifm-text-color) !important;
   max-width: 700px !important;
   margin: 0 auto 3rem !important;
   line-height: 1.6 !important;
@@ -331,7 +365,8 @@ body {
   font-size: 4rem !important;
   font-weight: bold !important;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2) !important;
-  background: #004080 !important;
+  background: var(--ifm-color-primary) !important;
+  color: var(--ifm-text-color) !important;
   flex-shrink: 0 !important;
 }
 
@@ -341,7 +376,7 @@ body {
   margin: 1.2rem 0 !important;
   font-size: 1.3rem !important;
   line-height: 1.3 !important;
-  color: #000000 !important;
+  color: var(--ifm-heading-color) !important;
   width: 100% !important;
   min-height: 60px !important;
   word-break: break-word !important;
@@ -492,7 +527,7 @@ body {
 }
 
 .key-features-title {
-  color: white !important;
+  color: var(--ifm-text-color) !important;
   font-size: 2.5rem !important;
   font-weight: 800 !important;
   margin-bottom: 2.5rem !important;
@@ -510,7 +545,7 @@ body {
   list-style: none !important;
   position: relative !important;
   z-index: 1 !important;
-  color: rgba(255,255,255,0.95) !important;
+  color: var(--ifm-text-color) !important;
   max-width: 800px !important;
   width: 100% !important;
 }
@@ -525,14 +560,14 @@ body {
   content: '✓' !important;
   position: absolute !important;
   left: 0 !important;
-  color: #004080 !important;
+  color: var(--ifm-color-primary) !important;
   font-weight: bold !important;
   font-size: 1.5rem !important;
   top: 0.2rem !important;
 }
 
 .key-features-list strong {
-  color: white !important;
+  color: var(--ifm-text-color) !important;
 }
 
 /* Feature Section Background */
@@ -605,8 +640,8 @@ div[style*="background:linear-gradient(135deg,#f0f9ff"] {
 
 /* Footer Section */
 footer {
-  background: #004080 !important;
-  color: white !important;
+  background: var(--ifm-footer-background-color) !important;
+  color: var(--ifm-text-color) !important;
   padding: 4rem 0 2rem !important;
   margin-top: auto !important;
 }
@@ -633,7 +668,7 @@ footer .footer__col {
 }
 
 footer .footer__title {
-  color: white !important;
+  color: var(--ifm-text-color) !important;
   margin-bottom: 1.5rem !important;
   font-size: 1.2rem !important;
   font-weight: 600 !important;
@@ -652,13 +687,13 @@ footer .footer__item {
 }
 
 footer a {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: var(--ifm-text-color) !important;
   text-decoration: none !important;
   transition: color 0.3s ease !important;
 }
 
 footer a:hover {
-  color: white !important;
+  color: var(--ifm-color-primary) !important;
 }
 
 footer .footer__bottom {
@@ -668,7 +703,7 @@ footer .footer__bottom {
 }
 
 footer .footer__copyright {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--ifm-text-color) !important;
   font-size: 0.9rem !important;
   margin: 0 !important;
 }
@@ -1168,6 +1203,28 @@ h1, h2 { font-size: 2.5rem !important; }
     font-size: 1.25rem !important;
     min-height: 60px !important;
   }
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: var(--ifm-navbar-background-color) !important;
+  color: var(--ifm-text-color) !important;
+}
+
+.navbar__brand {
+  color: var(--ifm-text-color) !important;
+}
+
+.navbar__title {
+  color: var(--ifm-text-color) !important;
+}
+
+.navbar__link {
+  color: var(--ifm-text-color) !important;
+}
+
+.navbar__link:hover {
+  color: var(--ifm-color-primary) !important;
 }
 
 /* Prevent horizontal scroll */
