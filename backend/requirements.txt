@@ -1,0 +1,4 @@
+openai-agents
+cohere
+qdrant-client
+python-dotenv

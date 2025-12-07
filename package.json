@@ -1,0 +1,24 @@
+{
+  "name": "physical-ai-humanoid-robotics",
+  "version": "1.0.0",
+  "description": "Physical AI & Humanoid Robotics educational platform",
+  "scripts": {
+    "dev": "cd frontend && npm run start",
+    "build": "cd frontend && npm run build",
+    "serve": "cd frontend && npm run serve",
+    "backend-install": "cd backend && pip install -r requirements.txt",
+    "postinstall": "npm run backend-install"
+  },
+  "keywords": [
+    "ai",
+    "robotics",
+    "education",
+    "docusaurus",
+    "physical-ai"
+  ],
+  "author": "Panaversity",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.14.0"
+  }
+}

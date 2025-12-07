@@ -150,7 +150,7 @@ This project originated from **Hackathon I: Create a Textbook for Teaching Physi
 
 Have questions about the course or want to learn more about our programs?
 
-- **Email**: [rafihasiddiqui@gmail.com](mailto:rafihasiddiqui@gmail.com)
+- **Email**: [aatfasiddiqui@gmail.com](mailto:aatfasiddiqui@gmail.com)
 
 <div align="center">
 
